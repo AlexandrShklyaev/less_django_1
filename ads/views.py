@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -43,7 +43,7 @@ class Ad_View(DetailView):
     def get(self,request,*args,**kwargs):
         try:
             obj = self.get_object()
-        except:
+        except Http404:
             return JsonResponse({"error":"not found"}, status=404)
         else:
             response = vars(obj)
@@ -81,7 +81,7 @@ class Cat_View(DetailView):
     def get(self,request,*args,**kwargs):
         try:
             obj=self.get_object()
-        except:
+        except Http404:
             return JsonResponse({"error": "not found"}, status=404)
         else:
             response = vars(obj)
