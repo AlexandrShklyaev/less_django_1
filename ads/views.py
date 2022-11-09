@@ -41,9 +41,14 @@ class Ad_View(DetailView):
     model = Ad
     # """ для /ad/:id метод GET """
     def get(self,request,*args,**kwargs):
-        response =  vars(self.get_object())
-        response.pop('_state')
-        return JsonResponse(response, status=200)
+        try:
+            obj = self.get_object()
+        except:
+            return JsonResponse({"error":"not found"}, status=404)
+        else:
+            response = vars(obj)
+            response.pop('_state')
+            return JsonResponse(response, status=200)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class Cats_View(View):
@@ -74,9 +79,14 @@ class Cat_View(DetailView):
     model = Category
     # """ для /cat/:id метод GET """
     def get(self,request,*args,**kwargs):
-        response =  vars(self.get_object())
-        response.pop('_state')
-        return JsonResponse(response, status=200)
+        try:
+            obj=self.get_object()
+        except:
+            return JsonResponse({"error": "not found"}, status=404)
+        else:
+            response = vars(obj)
+            response.pop('_state')
+            return JsonResponse(response, status=200)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class Csv_in_Json(View):
